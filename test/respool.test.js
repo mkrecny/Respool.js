@@ -12,8 +12,8 @@ var RespoolTest = {
     return callback();
   },
   
-  addToPool:function(callback){
-    console.log('2. Adding members to pool', '------------');
+  fillPool:function(callback){
+    console.log('2. Filing pool from array', '------------');
     var respool = rp.createPool();
     var num_members = 10;
     var pool = [];
@@ -76,7 +76,22 @@ var RespoolTest = {
       assert.ok(res && respool.urgency===urgency, console.log("PASS"));
       return callback();
     });
-  }
+  },
+  
+  addToPool:function(callback){
+    console.log('6. Adding members to pool', '------------');
+    var respool = rp.createPool();
+    var num_members = 10;
+    for (var i=1; i<num_members+1; i+=1){
+      respool.addResource(i, function(err, res){
+        if (respool.pool.length===num_members){
+          assert.ok(res && (respool.pool.length===num_members), console.log("PASS"));
+          console.log(respool);
+          return callback();  
+        }
+      });
+    }
+  },
    
 };
 

@@ -9,6 +9,16 @@ function Respool(){
    return callback(null, self.urgency = urgency); 
   }; 
   
+  this.addResource = function(resource, callback){
+    if (!resource){
+      return callback('Must supply some sort of resource');
+    }
+    if (!self.hasOwnProperty('pool')){
+      self.pool = [];
+    }
+    return callback(null, self.pool.push(resource));
+  };
+  
   this.fillPool = function(pool, callback){ 
     if (!(Array.isArray(pool) && pool.length)){
       return callback('Pool must be an array of resources');
@@ -19,7 +29,7 @@ function Respool(){
   
   this.getResource = function(callback){
     if (!self.pool){
-      callback('Pool has no been filled', null);
+      callback('Pool has not been filled', null);
     }
     var r = self.pool.shift();
     if (r){
